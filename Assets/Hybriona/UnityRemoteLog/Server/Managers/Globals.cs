@@ -1,11 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 namespace Hybriona.UnityRemoteLog
 {
     public class Globals : MonoBehaviour
     {
-        public ScrollManager scrollManager;
+        public RemoteLogView remoteLogView;
+        public Text errorText;
+
+        [Header("## CONFIG ##")]
+        public Color textColorNormal;
+        public Color textColorWarning;
+        public Color textColorError;
+
         private Queue<System.Action> mainThreadQueue = new Queue<System.Action>();
 
         private static Globals instance;

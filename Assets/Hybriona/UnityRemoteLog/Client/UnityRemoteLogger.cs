@@ -81,7 +81,7 @@ namespace Hybriona.UnityRemoteLog
 
         //Methods
 
-        protected void LogProcess(string message,string tag = null)
+        protected void LogProcess(string message)
         {
             if(isConnected)
             {
@@ -94,7 +94,7 @@ namespace Hybriona.UnityRemoteLog
             }
         }
 
-        protected void LogWarningProcess(string message, string tag = null)
+        protected void LogWarningProcess(string message)
         {
             if (isConnected)
             {
@@ -107,7 +107,7 @@ namespace Hybriona.UnityRemoteLog
             }
         }
 
-        protected void LogErrorProcess(string message, string tag = null)
+        protected void LogErrorProcess(string message)
         {
             if (isConnected)
             {

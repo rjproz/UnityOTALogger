@@ -8,14 +8,22 @@ namespace Hybriona.UnityRemoteLog
 { 
     public class Server 
     {
+
         public TcpListener listener;
         private List<Client> clients = new List<Client>();
         public void Start(int port)
         {
             listener = new TcpListener(IPAddress.Any, port);
-            listener.Start();
-            
-            UnityEngine.Debug.Log("Server started "+ (listener.Server.RemoteEndPoint.ToString()));
+            try
+            {
+                listener.Start();
+                Globals.Instance.errorText.text = "Connected ";
+            }
+            catch(System.Exception ex)
+            {
+                Globals.Instance.errorText.text = ex.Message;
+            }
+            //UnityEngine.Debug.Log("Server started "+ (listener.Server.RemoteEndPoint.ToString()));
             BeginAcceptClient();
         }
 
@@ -54,7 +62,7 @@ namespace Hybriona.UnityRemoteLog
             {
                 Globals.Instance.EnqueueToMainThread(() =>
                 {
-                    Globals.Instance.scrollManager.EnqueueLog(JsonUtility.FromJson<LogData>(rawData));
+                    Globals.Instance.remoteLogView.scrollManager.EnqueueLog(JsonUtility.FromJson<LogData>(rawData));
                 });
             }
             catch(System.Exception ex)

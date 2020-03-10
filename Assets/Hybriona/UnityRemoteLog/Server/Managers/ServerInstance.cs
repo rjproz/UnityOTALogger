@@ -24,5 +24,10 @@ namespace Hybriona.UnityRemoteLog
         {
             StartServer();
         }
+
+        private void OnDisable()
+        {
+            StopServer();
+        }
     }
 }

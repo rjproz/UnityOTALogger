@@ -19,6 +19,21 @@ namespace Hybriona.UnityRemoteLog
             logData = _logData;
             titleTextTarget.Set(System.DateTime.FromFileTime(logData.timestamp).ToString("MM/dd/yyyy HH:mm:ss"), logData.appId);
             logTextTarget.text = logData.message;
+
+            if(logData.type == LogData.Type.Info)
+            {
+                logTextTarget.color = Globals.Instance.textColorNormal;
+            }
+            else if (logData.type == LogData.Type.Warning)
+            {
+                logTextTarget.color = Globals.Instance.textColorWarning;
+            }
+            else if (logData.type == LogData.Type.Error)
+            {
+                logTextTarget.color = Globals.Instance.textColorError;
+            }
+
+
             LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
             yield return null;
             elementHeight = rectTransform.rect.height;
