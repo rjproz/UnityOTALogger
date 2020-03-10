@@ -20,7 +20,9 @@ namespace Hybriona.UnityRemoteLog
             }
         }
 
-
-       
+        private void Start()
+        {
+            StartServer();
+        }
     }
 }

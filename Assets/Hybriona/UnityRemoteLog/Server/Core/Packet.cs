@@ -7,8 +7,8 @@ namespace Hybriona.UnityRemoteLog
 {
 	public class Packet 
 	{
+        public System.Action<string> onCompletePacketReceived;
         List<byte> buffer = new List<byte>();
-
         private int headerPos = 0;
         private int readPos = 0;
         private int contentLength = 0;
@@ -22,8 +22,7 @@ namespace Hybriona.UnityRemoteLog
         }
 
         public void Write(byte [] bufferReference,int size,int offset = 0)
-        {
-            
+        {           
             int i = 0;
             for(i=offset; i<size; i++)
             {
@@ -45,12 +44,8 @@ namespace Hybriona.UnityRemoteLog
 
                     if(readPos == contentLength)
                     {
-                        //for(int c=0;c<buffer.Count;c++)
-                        //{
-                        //    Debug.Log(buffer[i].ToString());
-                        //}
-
-                        Debug.Log(Encoding.ASCII.GetString(buffer.ToArray()));
+                        //Debug.Log(Encoding.ASCII.GetString(buffer.ToArray()));
+                        onCompletePacketReceived(Encoding.ASCII.GetString(buffer.ToArray()));
                         Reset();
                     }
                 }

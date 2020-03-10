@@ -53,20 +53,40 @@ namespace Hybriona.UnityRemoteLog
                 socket.SendBufferSize = socket.ReceiveBufferSize = 4096;
                 networkStream = socket.GetStream();
                 isConnected = true;
+                Debug.Log("client connected");
             }
             catch(System.Exception ex)
             {
-
+                Debug.LogError(ex.Message);
             }
         }
 
-        public void Log(string message,string tag = null)
+
+        //Public static Methods
+        public static void Log(string message)
+        {
+            Instance.LogProcess(message);
+        }
+
+        public static void LogWarning(string message)
+        {
+            Instance.LogWarningProcess(message);
+        }
+
+        public static void LogError(string message)
+        {
+            Instance.LogErrorProcess(message);
+        }
+
+
+        //Methods
+
+        protected void LogProcess(string message,string tag = null)
         {
             if(isConnected)
             {
                 LogData logData = new LogData();
                 logData.appId = appID;
-                logData.tag = tag;
                 logData.message = message;
                 logData.type = LogData.Type.Info;
 
@@ -74,13 +94,12 @@ namespace Hybriona.UnityRemoteLog
             }
         }
 
-        public void LogWarning(string message, string tag = null)
+        protected void LogWarningProcess(string message, string tag = null)
         {
             if (isConnected)
             {
                 LogData logData = new LogData();
                 logData.appId = appID;
-                logData.tag = tag;
                 logData.message = message;
                 logData.type = LogData.Type.Warning;
 
@@ -88,19 +107,19 @@ namespace Hybriona.UnityRemoteLog
             }
         }
 
-        public void LogError(string message, string tag = null)
+        protected void LogErrorProcess(string message, string tag = null)
         {
             if (isConnected)
             {
                 LogData logData = new LogData();
                 logData.appId = appID;
-                logData.tag = tag;
                 logData.message = message;
                 logData.type = LogData.Type.Error;
 
                 SendData(logData);
             }
         }
+
 
 
         private void SendData(LogData logData)
@@ -119,7 +138,6 @@ namespace Hybriona.UnityRemoteLog
 
             networkStream.Write(sizeData, 0, sizeData.Length);
             networkStream.Write(binaryData, 0, binaryData.Length);
-            //networkStream.Write(binaryData,0, binaryData.Length);
             binaryData = null;
         }
 

@@ -9,7 +9,6 @@ namespace Hybriona.UnityRemoteLog
     {
         public string appId;
         public Type type;
-        public string tag;
         public string message;
         public long timestamp;
        
