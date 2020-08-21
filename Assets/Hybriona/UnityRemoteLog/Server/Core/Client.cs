@@ -5,18 +5,20 @@ using System;
 
 namespace Hybriona.UnityRemoteLog
 {
-    public class Client : MonoBehaviour
+    public class Client 
     {
         public string id { get; private set; }
         public TcpClient socket { get; private set; }
         public Packet packet { get; private set; }
+        public bool isFree { get; private set; } = true;
 
         public const int BUFFER_SIZE = 4096;
-
+       
        
         private byte[] buffer;
         public void Init(TcpClient socket)
         {
+            isFree = false;
             this.socket = socket;
             this.socket.ReceiveBufferSize = BUFFER_SIZE;
             this.socket.SendBufferSize = BUFFER_SIZE;
@@ -37,10 +39,13 @@ namespace Hybriona.UnityRemoteLog
 
         public void Dispose()
         {
-            if(socket != null)
+            isFree = true;
+            Debug.Log("disconnected");
+            if (socket != null)
             {
                 socket.Close();
                 socket.Dispose();
+                
             }
         }
 
@@ -56,12 +61,21 @@ namespace Hybriona.UnityRemoteLog
             try
             {  
                 int readed = stream.EndRead(result);
-                packet.Write(buffer, readed);
-                stream.BeginRead(buffer, 0, BUFFER_SIZE, new AsyncCallback(ReadCallback), null);
+                if(readed > 0)
+                {
+                    //Debug.Log("readed: " + readed);
+                    packet.Write(buffer, readed);
+                    stream.BeginRead(buffer, 0, BUFFER_SIZE, new AsyncCallback(ReadCallback), null);
+                }
+                else
+                {
+                    Dispose();
+                }
+                
             }
             catch (System.Exception ex)
             {
-
+                Debug.Log(ex.Message + " - " + ex.StackTrace);
             }
         }
     }

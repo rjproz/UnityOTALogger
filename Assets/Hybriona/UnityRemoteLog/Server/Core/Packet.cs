@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using System;
 
 namespace Hybriona.UnityRemoteLog
 {
@@ -54,6 +55,7 @@ namespace Hybriona.UnityRemoteLog
                     //read header again
                     Write(bufferReference, size, i);
                 }
+               
             }
              
         }

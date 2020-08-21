@@ -48,11 +48,30 @@ namespace Hybriona.UnityRemoteLog
         private void TcpBeginAcceptCallback(IAsyncResult result)
         {
             TcpClient socket = listener.EndAcceptTcpClient(result);
-            Client client = new Client();
+            Debug.Log("new connection from " + socket.Client.RemoteEndPoint.ToString());
+            Client client = null;
+            for (int i=0;i<clients.Count;i++)
+            {
+                if(clients[i].isFree)
+                {
+                    client = clients[i];
+                    Debug.Log("Found slot for "+ socket.Client.RemoteEndPoint.ToString());
+                    //Debug.Log("Is client null: "+(client == null));
+                    break;
+                }
+            }
+            if(client == null)
+            {
+                Debug.Log("create new slot "+ socket.Client.RemoteEndPoint.ToString());
+                client = new Client();
+                clients.Add(client);
+            }
             client.Init(socket);
             client.packet.onCompletePacketReceived = OnLogReceived;
-            clients.Add(client);
+
+            Debug.Log("Client count " + clients.Count);
             BeginAcceptClient();
+            
         }
 
         private void OnLogReceived(string rawData)
