@@ -9,24 +9,24 @@ namespace Hybriona.Logging
     {
         private IEnumerator Start()
         {
-            HybOTALogger.Init(idleCheckWait:10);
+            HybOTALogger.Init(idleCheckWait: 10);
             yield return new WaitForSeconds(5);
 
-            while(true)
+            while (true)
             {
                 int num = Random.Range(0, 100) % 3;
-                LogType logType = (LogType) ( Random.Range(0, 100) % 3);
+
                 if (num == 0)
                 {
-                    HybOTALogger.Log("hello at " + Time.time, logType);
+                    HybOTALogger.Log("hello at " + Time.time);
                 }
-                else if(num == 1)
+                else if (num == 1)
                 {
-                    HybOTALogger.Log("hello at " + Time.time+"\nsome more extra text", logType);
+                    HybOTALogger.LogWarning("hello at " + Time.time + "\nsome warning extra text");
                 }
                 else if (num == 2)
                 {
-                    HybOTALogger.Log("hello at " + Time.time + "\nsome more extra text\nEven more!", logType);
+                    HybOTALogger.LogError("hello at " + Time.time + "\nsome more extra text with error\nEven more!");
                 }
                 yield return new WaitForSeconds(1);
             }

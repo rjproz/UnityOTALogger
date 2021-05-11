@@ -2176,8 +2176,8 @@ MonoBehaviour:
   scrollElementPrefab: {fileID: 1070907391}
   scrollRect: {fileID: 1014828215}
   logTextColor: {r: 1, g: 1, b: 1, a: 1}
-  errorTextColor: {r: 1, g: 0.9310883, b: 0.15566039, a: 1}
-  warningTextColor: {r: 1, g: 0.29065645, b: 0, a: 1}
+  errorTextColor: {r: 1, g: 0.2901961, b: 0, a: 1}
+  warningTextColor: {r: 1, g: 0.9167996, b: 0, a: 1}
 --- !u!1 &1580611949
 GameObject:
   m_ObjectHideFlags: 0
