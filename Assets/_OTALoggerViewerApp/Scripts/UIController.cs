@@ -15,9 +15,9 @@ namespace Hybriona.Logging
         public GameObject scrollElementPrefab;
         public ScrollRect scrollRect;
        
-        public string logTextColor;
-        public string errorTextColor;
-        public string warningTextColor;
+        public Color logTextColor;
+        public Color errorTextColor;
+        public Color warningTextColor;
 
         private bool isAutoScrollOn = true;
         private Queue<System.Action> mainthreadQueue = new Queue<System.Action>();
@@ -44,7 +44,7 @@ namespace Hybriona.Logging
                     o.transform.localScale = Vector3.one;
                     ScrollElement scrollElement = o.GetComponent<ScrollElement>();
 
-                    string currentTxtColor = "#00FF00";
+                    Color currentTxtColor = Color.white;
                     if(logType == LogType.Log)
                     {
                         currentTxtColor = logTextColor;
@@ -86,6 +86,22 @@ namespace Hybriona.Logging
         {
             scrollElementPrefab.SetActive(false);
             connecter.onLogReceived = OnLogReceived;
+
+            connecter.connected = () =>
+            {
+                lock (thelock)
+                {
+                    mainthreadQueue.Enqueue(() =>
+                    {
+                        PlayerPrefs.SetString("ip", ipInputField.text);
+                        PlayerPrefs.SetString("port", portInputField.text);
+                        PlayerPrefs.Save();
+                    });
+                }
+            };
+
+            ipInputField.text = PlayerPrefs.GetString("ip","");
+            portInputField.text = PlayerPrefs.GetString("port", "");
         }
 
         IEnumerator DelayScroll()

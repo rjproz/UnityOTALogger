@@ -9,6 +9,7 @@ namespace Hybriona.Logging
 {
     public class Connecter : MonoBehaviour
     {
+        public System.Action connected;
         public System.Action<long, LogType, string> onLogReceived;
         private EventBasedNetListener listener;
         private NetManager netManager;
@@ -39,6 +40,10 @@ namespace Hybriona.Logging
                 }
                 else
                 {
+                    if(connected != null)
+                    {
+                        connected();
+                    }
                     while(true)
                     {
                         netManager.PollEvents();

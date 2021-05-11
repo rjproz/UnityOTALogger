@@ -8,9 +8,11 @@ namespace Hybriona.Logging
     public class ScrollElement : MonoBehaviour
     {
         public TMP_InputField inputField;
-        public void Assign(string date,string color, string message)
+        public TMP_Text text;
+        public void Assign(string date,Color color, string message)
         {
-            inputField.text = string.Format("<color=#6096FF>[{0}]</color> <color={1}>{2}</color>", date, color, message);
+            text.color = color;
+            inputField.text = string.Format("[{0}] {1}", date, message);
         }
     }
 }

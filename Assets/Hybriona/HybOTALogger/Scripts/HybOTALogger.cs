@@ -2,18 +2,22 @@
 using LiteNetLib;
 using LiteNetLib.Utils;
 using System.Threading;
+using System.Collections;
+
 namespace Hybriona.Logging
 {
     public class HybOTALogger : MonoBehaviour
     {
         private NetManager netManager;
         private int port;
+        private static float idleWait;
         private NetDataWriter dataWriter;
         private string connectedMessage;
         private bool serverStarted = false;
         #region Static Methods
-        public static void Init(int port = 11111,float wait = 60)
+        public static void Init(int port = 11111,float idleCheckWait = 60)
         {
+            idleWait = idleCheckWait;
             Instance._Init(port);
         }
 
@@ -66,6 +70,7 @@ namespace Hybriona.Logging
             this.port = port;
             this.connectedMessage = string.Format("Connected to {0} (v{3})\n{1}\n{2}", Application.productName, Application.identifier, Application.platform, Application.version);
             new Thread(Process).Start();
+            StartCoroutine(IdleCheck());
         }
 
         private void m_Log(string message,LogType type)
@@ -107,7 +112,14 @@ namespace Hybriona.Logging
             }
         }
 
-
+        private IEnumerator IdleCheck()
+        {
+            yield return new WaitForSeconds(idleWait);
+            if(netManager.ConnectedPeersCount == 0)
+            {
+                Destroy(gameObject);
+            }
+        }
 
         #endregion
 

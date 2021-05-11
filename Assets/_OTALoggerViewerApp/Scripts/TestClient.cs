@@ -9,7 +9,7 @@ namespace Hybriona.Logging
     {
         private IEnumerator Start()
         {
-            HybOTALogger.Init();
+            HybOTALogger.Init(idleCheckWait:10);
             yield return new WaitForSeconds(5);
 
             while(true)

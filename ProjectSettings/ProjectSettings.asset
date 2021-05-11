@@ -549,7 +549,7 @@ PlayerSettings:
     1: DISABLE_IPV6
   platformArchitecture: {}
   scriptingBackend:
-    Standalone: 1
+    Standalone: 0
   il2cppCompilerConfiguration: {}
   managedStrippingLevel:
     Standalone: 1
