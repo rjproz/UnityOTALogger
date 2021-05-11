@@ -21,8 +21,8 @@ namespace Hybriona.Logging
     {
         private IEnumerator Start()
         {
-            HybOTALogger.Init(idleCheckWait:10);
-            yield return new WaitForSeconds(5);
+            HybOTALogger.Init(idleCheckWait:120);
+            yield return new WaitForSeconds(2);
 
             while(true)
             {
